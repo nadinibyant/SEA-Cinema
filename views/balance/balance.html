@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="your-csrf-token-value">
+    <title>Balance</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <style>
+        nav {
+            background-color: #FFDDF8;
+        }
+
+        .menu:hover {
+            background-color: #AE7FA4;
+        }
+
+        hr {
+            border-top: 2px black solid;
+            border-radius: 2px;
+        }
+
+        .btn-add {
+            background-color: #AE7FA4;
+            color: white;
+        }
+
+        .card-header,
+        .card-footer {
+            background-color: #C5E7B5;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg p-3 vw-100">
+        <div class="container-fluid ms-4">
+            <a class="navbar-brand fw-bold fs-4" href="/home">SEA Cinema</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item ms-5 me-5">
+                        <a class="nav-link menu active fw-semibold" aria-current="page" href="/history">History
+                            Transac</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu active fw-semibold" aria-current="page" href="/balance">Balance</a>
+                    </li>
+                </ul>
+                <ul class="mb-2 mb-lg-0">
+                    <li class="nav-item dropdown d-flex">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false" id="usernameProfile">
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/profile">Profile</a></li>
+                            <li><a class="dropdown-item" href="/logout" id="logout">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <main>
+        <div class="card text-center w-75 m-auto mt-5">
+            <div class="card-header fw-bold">
+                Total Balance
+            </div>
+            <div class="card-body">
+                <h5 class="card-title text-danger fs-1" id="saldo"></h5>
+                <hr>
+                <form class="m-4">
+                    <div class="form-floating mb-4">
+                        <input type="number" class="form-control" id="balanceAdd" placeholder="balanceAdd" name="balanceAdd">
+                        <label for="balanceAdd" class="text-dark">Add Balance</label>
+                    </div>
+                    <button class="w-50 btn btn-lg btn-light btn-add fw-semibold" type="submit">Add Balance</button>
+                </form>
+            </div>
+            <div class="card-footer text-muted">
+                &copy; SEA Cinema
+            </div>
+        </div>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous">
+    </script>
+    <script>    
+        document.addEventListener("DOMContentLoaded", async function () {
+            const response = await fetch('/username', {
+                method: 'GET'
+            })
+
+            const data = await response.json()
+            var username
+            if (data.success) {
+                username = data.username
+            } else {
+                window.location.href = '/signin'
+            }
+
+            const form = document.querySelector('form')
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault();
+
+                const balanceAdd = document.getElementById('balanceAdd').value 
+                console.log(balanceAdd)
+
+                const formData = new FormData(form)
+                const response = await fetch('/addBalance', {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        balanceAdd
+                    })
+                })
+
+                const data = await response.json()
+
+                if (data.success) {
+                    alert(data.message)
+                    location.reload()
+                } else {
+                    alert(data.message)
+                }
+            })
+
+            const usernameProfile = document.getElementById('usernameProfile')
+            usernameProfile.textContent = username
+
+            const response2 = await fetch('/getBalance', {
+                method: 'GET'
+            })
+            const data2 = await response2.json()
+            let totalBalance
+            if (data2.success) {
+                totalBalance = data2.totalBalance
+            } else {
+                alert(data2.message)
+            }
+
+            if(totalBalance != undefined){
+                const saldo = document.getElementById('saldo')
+                saldo.textContent = `Rp ${totalBalance}`
+            }
+
+
+            const btnLogout = document.getElementById('logout');
+            btnLogout.addEventListener('click', async function (event) {
+                event.preventDefault()
+
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '/logout';
+
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+                const csrfInput = document.createElement('input');
+                csrfInput.type = 'hidden';
+                csrfInput.name =
+                    '_csrf'; 
+                csrfInput.value = csrfToken;
+                form.appendChild(csrfInput);
+
+                document.body.appendChild(form);
+                form.submit();
+
+                try {
+                    const response = await fetch('/logout', {
+                        method: 'POST'
+                    });
+                    const data = await response.json();
+
+                    if (data.success) {
+                        window.location.href = '/signin';
+                    } else {
+                        console.log(data.message);
+                        location.reload()
+                    }
+                } catch (error) {
+                    console.log(error);
+                }
+            })
+            
+        })
+    </script>
+</body>
+
+</html>
