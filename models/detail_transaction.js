@@ -1,7 +1,10 @@
+require('dotenv').config();
 const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = new Sequelize('mysql://root@localhost/db_sea')
+const sequelize = new Sequelize(`mysql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_NAME}`);
 const transaction = require('./transaction')
 const film = require('./film')
+
+
 
 const detail_transaction = sequelize.define('detail_transaction', {
     id_detail:{
