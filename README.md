@@ -30,7 +30,7 @@ SEA Cinema adalah website pemesenan tiket film, dengan memberikan kenyamanan pad
 4. <h6>Sign In</h6> : Masuk ke halaman signin jika sudah memiliki akun, dengan memasukan username dan password
 5. <h6>Menu Home</h6> : Setalah Login berhasil akan ditampilkan halaman home yang berisikan daftar film yang tersedia
 6. <h6>Menu Balance</h6> : Sebelum melakukan pembelian tiket film, lakukan pengisian saldo untuk melanjutkan pembayaran transaksi tiket film
-7. <h6>Buy Ticket</h6> : Menakan button `Buy Ticket` pada film yang diinginkan untuk membeli tiket tersebut.
+7. <h6>Buy Ticket</h6> : Menekan button `Buy Ticket` pada film yang diinginkan untuk membeli tiket tersebut.
 8. Isikan jumlah tiket yang akan dibeli
 9. Pilih nama tiket, lalu pilih 1 nomor kursi untuk per tiketnya, lalu menekan button `Add`, dan lakukan pada seluruh tiket yang dipunya.
 10. Setelah semua tiket sudah memiliki nomor kursi, lalu menekan button `finish` untuk menyelesaikan transaksi, jika ingin membatalkan transaksi tekan button `cancel`
