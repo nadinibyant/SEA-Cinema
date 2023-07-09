@@ -59,4 +59,4 @@ SEA Cinema adalah website pemesenan tiket film, dengan memberikan kenyamanan pad
 <b>Jawaban</b> : Website akan menampilkan alert 'Transaksi tiket berhasil` atau website akan memuat ulang halaman
 
 # Lisensi
-Proyek ini dilisensikan di bawah [Apache License 2.0](LICENSE).
+Proyek ini dilisensikan di bawah [Apache License 2.0](LICENSE.txt).
