@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="your-csrf-token-value">
+    <title>Buy Ticket</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <style>
+        nav {
+            background-color: #FFDDF8;
+        }
+
+        .card-body a {
+            width: 100%;
+            background-color: #AE7FA4;
+            color: white;
+        }
+
+        .menu:hover {
+            background-color: #AE7FA4;
+        }
+
+        hr {
+            border-top: 2px black solid;
+            border-radius: 2px;
+        }
+
+        .btn-add {
+            background-color: #AE7FA4;
+            color: white;
+        }
+
+        .custom-checkbox {
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg p-3 vw-100">
+        <div class="container-fluid ms-4">
+            <a class="navbar-brand fw-bold fs-4" href="/home">SEA Cinema</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item ms-5 me-5">
+                        <a class="nav-link menu active fw-semibold" aria-current="page" href="/history">History
+                            Transac</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu active fw-semibold" aria-current="page" href="/balance">Balance</a>
+                    </li>
+                </ul>
+                <ul class="mb-2 mb-lg-0">
+                    <li class="nav-item dropdown d-flex">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false" id="usernameProfile">
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/profile">Profile</a></li>
+                            <li><a class="dropdown-item" href="/logout" id="logout">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <main>
+        <div class="card m-auto w-50 mt-5" style="width: 18rem;">
+            <img src="" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title"></h5>
+                <p class="card-text" id="description"></p>
+                <p class="card-text text-info fw-semibold" id="age"></p>
+                <p class="card-text text-dark fw-semibold" id="date"></p>
+                <p class="card-text text-dark fw-semibold" id="time"></p>
+                <p class="card-text text-danger fw-semibold fs-5" id="price"></p>
+                <hr>
+                <form class="m-4">
+                    <div class="input-group mb-4 mt-5">
+                        <label class="input-group-text" for="inputGroupSelect01">Chooce Ticket</label>
+                        <select class="form-select" id="inputGroupSelect01">
+                        </select>
+                    </div>
+                    <p class="fw-semibold">Choose One Seat For One Ticket and reselect according to the number of
+                        tickets</p>
+                    <div class="form-floating mb-4 m-auto">
+                        <div class="row justify-content-center">
+                            <div class="col-md-10">
+                                <div id="checkbox-grid" class="row"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button class="w-100 btn btn-lg btn-light btn-add fw-semibold" type="submit" id="btn-add">Add</button>
+                        <button class="w-100 btn btn-lg btn-danger fw-semibold" type="button" id="btn-cancel">Cancel</button>
+                        <button class="w-100 btn btn-lg btn-success fw-semibold" type="button" id="btn-finish">Finish</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+    <script>
+        document.addEventListener("DOMContentLoaded", async function () {
+            var checkboxGrid = document.getElementById("checkbox-grid");
+
+            var counter = 1;
+            for (var i = 1; i <= 8; i++) {
+                var row = document.createElement("div");
+                row.className = "row justify-content-center";
+
+                for (var j = 1; j <= 8; j++) {
+                    var col = document.createElement("div");
+                    col.className = "col-md-2 custom-checkbox";
+
+                    var checkbox = document.createElement("input");
+                    checkbox.type = "checkbox";
+                    checkbox.id = "checkbox" + counter;
+                    checkbox.value = counter;
+
+                    var label = document.createElement("label");
+                    label.htmlFor = "checkbox" + counter;
+                    label.textContent = counter;
+
+                    col.appendChild(checkbox);
+                    col.appendChild(label);
+                    row.appendChild(col);
+
+                    counter++;
+                }
+
+                checkboxGrid.appendChild(row);
+            }
+
+            const response = await fetch('/username', {
+                method: 'GET'
+            })
+
+            const data = await response.json()
+            var username
+            if (data.success) {
+                username = data.username
+            } else {
+                window.location.href = '/signin'
+            }
+
+            const usernameProfile = document.getElementById('usernameProfile')
+            usernameProfile.textContent = username
+
+            function idTransFromURL() {
+                const url = window.location.href;
+                const idRegex = /\/BuyTicket\/seats\/(\d+)/;
+                const matches = url.match(idRegex);
+                if (matches && matches.length > 1) {
+                    return matches[1];
+                }
+                return '';
+            }
+
+            function idFilmFromURL() {
+                const url = window.location.href;
+                const idRegex = /\/BuyTicket\/seats\/\d+\/(\d+)/;
+                const matches = url.match(idRegex);
+                if (matches && matches.length > 1) {
+                    return matches[1];
+                }
+                return '';
+            }
+
+            const id_film = idFilmFromURL()
+            const id_transaction = idTransFromURL()
+
+            const response2 = await fetch(`/BuyTicket/detailFilm/${id_film}`, {
+                method: 'GET'
+            })
+            const data2 = await response2.json()
+
+            if (data2.success) {
+                const img = document.querySelector('img')
+                img.setAttribute('src', `${data2.film.poster_url}`)
+
+                const h5 = document.querySelector('h5')
+                h5.textContent = `${data2.film.title}`
+
+                const description = document.getElementById('description')
+                description.textContent = `${data2.film.description}`
+
+                const age = document.getElementById('age')
+                age.textContent = `Age ${data2.film.age_rating}`
+
+                const date = document.getElementById('date')
+                date.textContent = `Date : ${data2.film.release_date}`
+
+                const time = document.getElementById('time')
+                time.textContent = `Time : 14.00`
+
+                const price = document.getElementById('price')
+                price.textContent = `Rp ${data2.film.ticket_price}`
+
+            } else {
+                alert(data2.message)
+                window.location.href = '/home'
+            }
+
+
+            const response3 = await fetch(`/BuyTicket/detail/${id_transaction}`, {
+                method: 'GET'
+            })
+            const data3 = await response3.json()
+
+            let id_ticket = {}
+            if (data3.success) {
+                id_ticket = data3.id_ticket
+            } else {
+                alert(data3.message)
+            }
+
+            const tagSelect = document.getElementById('inputGroupSelect01')
+            for (let i = 0; i < id_ticket.length; i++) {
+                const option = document.createElement('option')
+                tagSelect.appendChild(option)
+                option.classList.add("option-ticket")
+            }
+
+            const optionTicket = document.getElementsByClassName('option-ticket')
+            for (let i = 0; i < optionTicket.length; i++) {
+                optionTicket[i].setAttribute('value', `${id_ticket[i]}`)
+                optionTicket[i].textContent = `${id_ticket[i]}`
+            }
+
+            const btnAdd = document.getElementById('btn-add')
+            btnAdd.addEventListener('click', async function () {
+                
+                const inputSelect = tagSelect.value
+                const checkboxes = document.querySelectorAll(
+                    '.custom-checkbox input[type="checkbox"]');
+
+                let checkedValues
+
+                checkboxes.forEach(checkbox => {
+                    if (checkbox.checked) {
+                        checkedValues = checkbox.value
+                    }
+                });
+
+                const response = await fetch(`/BuyTicket/seats/${id_transaction}/${id_film}`, {
+                    method: 'POST', 
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        id_ticket: inputSelect,
+                        no_seats: checkedValues
+                    })
+                })
+                const data = await response.json()
+                if(data.success){
+                    alert(data.message)
+                    window.location.href =  `/BuyTicket/seats/${id_transaction}/${id_film}`
+                } else {
+                    alert(data.message)
+                    window.location.href =  `/BuyTicket/seats/${id_transaction}/${id_film}`
+                }
+
+            })
+
+            const btnCancel = document.getElementById('btn-cancel')
+            btnCancel.addEventListener('click', async function (){
+
+                if(confirm('Apakah anda ingin membatalkan transaksi?') == true){
+                    const response = await fetch(`/BuyTicket/cancel/${id_transaction}`,{
+                        method: 'GET'
+                    })
+                    const data = await response.json()
+                    if(data.success){
+                        alert(data.message)
+                        window.location.href = '/home'
+                    } else {
+                        alert(data.message)
+                        location.reload()
+                    }
+                } else {
+                    location.reload()
+                }
+                
+            })
+
+            const btnFinish = document.getElementById('btn-finish')
+            btnFinish.addEventListener('click', async function (){
+                const response = await fetch(`/BuyTicket/finish/${id_transaction}`,{
+                    method: 'GET'
+                })
+                const data = await response.json()
+                if(data.success){
+                    alert(data.message)
+                    window.location.href = '/history'
+                } else {
+                    alert(data.message)
+                }
+            })
+
+            const btnLogout = document.getElementById('logout');
+            btnLogout.addEventListener('click', async function (event) {
+                event.preventDefault()
+
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '/logout';
+
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+                const csrfInput = document.createElement('input');
+                csrfInput.type = 'hidden';
+                csrfInput.name =
+                    '_csrf';
+                csrfInput.value = csrfToken;
+                form.appendChild(csrfInput);
+
+                document.body.appendChild(form);
+                form.submit();
+
+                try {
+                    const response = await fetch('/logout', {
+                        method: 'POST'
+                    });
+                    const data = await response.json();
+
+                    if (data.success) {
+                        window.location.href = '/signin';
+                    } else {
+                        console.log(data.message);
+                        location.reload()
+                    }
+                } catch (error) {
+                    console.log(error);
+                }
+            })
+
+
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous">
+    </script>
+
+</body>
+
+</html>
