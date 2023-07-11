@@ -28,8 +28,7 @@ const verifyToken = (req, res, next) => {
 
 
 const tampilBuyTicket = async (req, res) => {
-    const buyPath = path.join(__dirname, '../views/ticket/buyTicket.html')
-    res.sendFile(buyPath)
+    res.render('ticket/buyTicket');
 }
 controllers.tampilBuyTicket = [verifyToken, tampilBuyTicket]
 
@@ -165,8 +164,7 @@ const numberTicket = async (req, res) => {
 controllers.numberTicket = numberTicket
 
 const viewSeats = async (req, res) => {
-    const seatsPath = path.join(__dirname, '../views/ticket/numberSeats.html')
-    res.sendFile(seatsPath)
+    res.render('ticket/numberSeats');
 }
 controllers.viewSeats = viewSeats
 

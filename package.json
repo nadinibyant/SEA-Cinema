@@ -1,9 +1,9 @@
 {
-  "name": "project",
+  "name": "project-baru",
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www"
+    "start": "node ./bin/www"
   },
   "dependencies": {
     "bcrypt": "^5.1.0",
@@ -11,23 +11,14 @@
     "debug": "~2.6.9",
     "dotenv": "^16.3.1",
     "ejs": "^3.1.9",
-    "errors": "^0.3.0",
     "express": "~4.16.1",
     "express-session": "^1.17.3",
-    "http": "^0.0.1-security",
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
-    "jsonwebtoken": "^9.0.0",
+    "jsonwebtoken": "^9.0.1",
     "morgan": "~1.9.1",
     "mysql": "^2.18.1",
-    "mysql2": "^3.4.5",
-    "nodemon": "^2.0.22",
-    "path": "^0.12.7",
+    "mysql2": "^3.5.1",
     "sequelize": "^6.32.1"
-  },
-  "main": "app.js",
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": ""
+  }
 }

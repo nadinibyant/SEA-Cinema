@@ -11,15 +11,6 @@
         {
             "src": "views/**",
             "use": "@vercel/static"
-        }, {
-            "src": "routes/**",
-            "use": "@vercel/node"
-        }, {
-            "src": "controllers/**",
-            "use": "@vercel/node"
-        }, {
-            "src": "models/**",
-            "use": "@vercel/node"
         }
     ],
     "routes": [{
@@ -28,7 +19,7 @@
         },
         {
             "src": "/",
-            "dest": "views/index.html"
+            "dest": "views/index.ejs"
         }
     ]
 }

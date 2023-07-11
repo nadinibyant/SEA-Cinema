@@ -4,12 +4,10 @@ const controllers = require('../controllers')
 const path = require('path')
 
 router.get('/signin', (req,res) => {
-    const signinPath = path.join(__dirname, '../views/signin.html');
-    res.sendFile(signinPath)
+    res.render('signin');
 })
 router.get('/signup', (req,res) => {
-    const signupPath = path.join(__dirname, '../views/signup.html');
-    res.sendFile(signupPath)
+    res.render('signup');
 })
 router.post('/signup', controllers.user.signup)
 router.post('/signin', controllers.user.signin)

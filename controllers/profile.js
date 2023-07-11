@@ -24,8 +24,7 @@ const verifyToken = (req, res, next) => {
 };
 
 const viewProfile = async(req,res) => {
-    const profilePath = path.join(__dirname, '../views/profile/profile.html')
-    res.sendFile(profilePath)
+    res.render('profile/profile');
 }
 controllers.viewProfile = [verifyToken,viewProfile]
 
@@ -51,8 +50,7 @@ const getDataProfile = async (req,res) => {
 controllers.getDataProfile = getDataProfile
 
 const viewEdit = async (req,res) => {
-    const editPath = path.join(__dirname, '../views/profile/editProfile.html')
-    res.sendFile(editPath)
+    res.render('profile/editProfile');
 }
 controllers.viewEdit = [verifyToken, viewEdit]
 

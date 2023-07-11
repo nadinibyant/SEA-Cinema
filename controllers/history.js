@@ -27,8 +27,7 @@ const verifyToken = (req, res, next) => {
 };
 
 const viewHistory = async (req, res) => {
-    const historyPath = path.join(__dirname, '../views/history/history.html')
-    res.sendFile(historyPath)
+    res.render('history/history');
 }
 controllers.viewHistory = [verifyToken, viewHistory]
 

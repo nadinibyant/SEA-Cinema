@@ -21,8 +21,7 @@ const verifyToken = (req, res, next) => {
 };
 
 const tampilBalance = async (req,res) => {
-    const balancePath = path.join(__dirname, '../views/balance/balance.html')
-    res.sendFile(balancePath)
+    res.render('balance/balance');
 }
 controllers.tampilBalance = [verifyToken, tampilBalance]
 
