@@ -24,7 +24,8 @@ const verifyToken = (req, res, next) => {
 };
 
 const tampilHome = async (req, res) => {
-    res.render('home/home');
+    const homePath = path.join(__dirname, '../views/home/home.html');
+    res.sendFile(homePath)
 }
 controllers.tampilHome = [verifyToken, tampilHome]
 
