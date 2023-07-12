@@ -22,7 +22,7 @@ SEA Cinema adalah website pemesenan tiket film, dengan memberikan kenyamanan pad
 2. Isi entri `ACCESS_TOKEN_SECRET` dengan nilai kunci rahasia JWT yang Anda inginkan
 3. Isi entri `DB_HOST` , `DB_USER`, `DB_PASSWORD`, dan `DB_NAME` dengan nilai pengkonfigurasian database yang Anda miliki
 
-(Catatan : Untuk data yang ada pada database, bisa diimport menggunakan file sql yang tersedia)
+(Catatan : Untuk data dan table yang ada pada database, bisa diimport menggunakan file sql yang tersedia)
 
 # Penggunaan
 1. Jalankan perintah berikut untuk menjalankan proyek pada terminal direktori:
