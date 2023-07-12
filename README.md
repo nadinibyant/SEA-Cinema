@@ -23,8 +23,8 @@ SEA Cinema adalah website pemesenan tiket film, dengan memberikan kenyamanan pad
 3. Isi entri `DB_HOST` , `DB_USER`, `DB_PASSWORD`, dan `DB_NAME` dengan nilai pengkonfigurasian database yang Anda miliki
 
 CONTOH:
-ACCESS_TOKEN_SECRET = hadgfafbsdjfeyg
-DB_HOST = localhost
+<p>ACCESS_TOKEN_SECRET = hadgfafbsdjfeyg</p>
+<p>DB_HOST = localhost</p>
 DB_USER = iniNamaUsernameDatabase
 DB_PASSWORD = iniPassword
 DB_NAME = iniNamaDatabase
