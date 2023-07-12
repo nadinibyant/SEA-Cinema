@@ -25,9 +25,9 @@ SEA Cinema adalah website pemesenan tiket film, dengan memberikan kenyamanan pad
 CONTOH:
 <p>ACCESS_TOKEN_SECRET = hadgfafbsdjfeyg</p>
 <p>DB_HOST = localhost</p>
-DB_USER = iniNamaUsernameDatabase
-DB_PASSWORD = iniPassword
-DB_NAME = iniNamaDatabase
+<p>DB_USER = iniNamaUsernameDatabase</p>
+<p>DB_PASSWORD = iniPassword</p>
+<p>DB_NAME = iniNamaDatabase</p>
 
 (Catatan : Untuk data dan table yang ada pada database, bisa diimport menggunakan file sql yang tersedia)
 
