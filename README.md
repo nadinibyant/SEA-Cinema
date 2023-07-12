@@ -7,7 +7,7 @@ SEA Cinema adalah website pemesenan tiket film, dengan memberikan kenyamanan pad
 1. Pastikan Anda memiliki Node.js terinstal di sistem Anda. Unduh dari https://nodejs.org  dan ikuti petunjuk instalasinya.
 2. Salin repositori ini ke dalam folder lokal Anda.
 3. Buka terminal dan arahkan ke direktori proyek.
-4. Jalankan perintah berikut untuk menginsta depedensi :
+4. Jalankan perintah berikut untuk menginstal depedensi :
    <h4>npm install</h4>
 5. Penginstalan berhasil ketika folder node_modules sudah muncul pada direktori Anda.
 
